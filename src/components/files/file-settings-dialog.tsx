@@ -1,4 +1,10 @@
-import { Link, TextInputField } from "evergreen-ui";
+import {
+    FormField,
+    Link,
+    majorScale,
+    minorScale,
+    TextInputField,
+} from "evergreen-ui";
 import type { FileRecord } from "models/file-record";
 import type { StorageProviderFileRecord } from "models/storage-provider-file-record";
 import { useCallback } from "react";
@@ -7,6 +13,7 @@ import type { DialogProps } from "components/dialog";
 import { Dialog } from "components/dialog";
 import { useInput } from "utils/hooks/use-input";
 import humanize from "humanize-plus";
+import { PlayPreviewButton } from "components/workstation/play-preview-button";
 
 interface FileSettingsDialogProps extends Pick<DialogProps, "onCloseComplete"> {
     file: FileRecord;
@@ -68,6 +75,14 @@ const FileSettingsDialog: React.FC<FileSettingsDialogProps> = (
                 readOnly={true}
                 value={humanize.fileSize(file.size!, 0)}
             />
+            <FormField label="Preview" marginBottom={majorScale(2)}>
+                <PlayPreviewButton
+                    appearance="default"
+                    fileUrl={file.getPublicUrl()}
+                    type="button"
+                    width="100%"
+                />
+            </FormField>
             {file.getPublicUrl() != null && (
                 <Link href={file.getPublicUrl()}>View File</Link>
             )}
